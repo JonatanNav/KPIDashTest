@@ -10,14 +10,16 @@ export const mockMeetings: Meeting[] = [
   { id: 'm6', client: 'Umbrella Corp', date: '2026-04-09', status: 'Completed', type: 'Follow-up' },
 ];
 
-const total = mockMeetings.length;
-const completed = mockMeetings.filter((m) => m.status === 'Completed').length;
-const scheduled = mockMeetings.filter((m) => m.status === 'Scheduled').length;
-const completionRate = Math.round((completed / total) * 100);
+export function computeMeetingKPIs(meetings: Meeting[]): KPI[] {
+  const total = meetings.length;
+  const completed = meetings.filter((m) => m.status === 'Completed').length;
+  const scheduled = meetings.filter((m) => m.status === 'Scheduled').length;
+  const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-export const meetingKPIs: KPI[] = [
-  { id: 'mk1', title: 'Total Meetings', value: total, change: 15.0, changeLabel: 'vs last month' },
-  { id: 'mk2', title: 'Completed', value: completed, change: 10.0, changeLabel: 'vs last month' },
-  { id: 'mk3', title: 'Scheduled', value: scheduled, change: 25.0, changeLabel: 'vs last month' },
-  { id: 'mk4', title: 'Completion Rate', value: `${completionRate}%`, change: 3.2, changeLabel: 'vs last month' },
-];
+  return [
+    { id: 'mk1', title: 'Total Meetings', value: total, change: 15.0, changeLabel: 'vs last month' },
+    { id: 'mk2', title: 'Completed', value: completed, change: 10.0, changeLabel: 'vs last month' },
+    { id: 'mk3', title: 'Scheduled', value: scheduled, change: 25.0, changeLabel: 'vs last month' },
+    { id: 'mk4', title: 'Completion Rate', value: `${completionRate}%`, change: 3.2, changeLabel: 'vs last month' },
+  ];
+}
